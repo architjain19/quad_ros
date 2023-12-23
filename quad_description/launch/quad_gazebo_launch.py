@@ -65,7 +65,19 @@ def generate_launch_description():
         arguments=['-entity', 'quad', '-topic', 'robot_description_quad', '-x', '0.0', '-y', '0.0', '-z', '0.0', '-Y', '0.0'],
         output='screen'
     )
-                                                 
+
+    joint_state_publisher_node_quad = launch_ros.actions.Node(
+        package="joint_state_publisher",
+        name="joint_state_publisher",
+        executable="joint_state_publisher"
+    )
+    
+    joint_state_publisher_gui_node_quad = launch_ros.actions.Node(
+        package="joint_state_publisher_gui",
+        name="joint_state_publisher_gui",
+        executable="joint_state_publisher_gui"
+    )
+
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(name='gui', default_value='True',
                                             description='Flag to enable joint_state_publisher_gui'),
@@ -74,5 +86,7 @@ def generate_launch_description():
         start_world,
         robot_state_publisher_node_quad,
         # static_transform,
-        spawn_quad
+        spawn_quad,
+        # joint_state_publisher_node_quad,
+        # joint_state_publisher_gui_node_quad
     ])
