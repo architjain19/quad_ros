@@ -33,7 +33,7 @@ def generate_launch_description():
     xacro_file_quad = os.path.join(pkg_share, 'models/','quad/', 'quad.xacro')
     assert os.path.exists(xacro_file_quad), "The quad.xacro doesnt exist in "+str(xacro_file_quad)
     robot_description_config_quad = xacro.process_file(xacro_file_quad)
-    robot_description_quad = robot_description_config_quad.toxml()
+    robot_description = robot_description_config_quad.toxml()
 
 
     start_world = IncludeLaunchDescription(
@@ -46,9 +46,7 @@ def generate_launch_description():
         package='robot_state_publisher',
         name='quad_RD',
         executable='robot_state_publisher',
-        parameters=[{"robot_description": robot_description_quad}],
-        remappings=[('robot_description', 'robot_description_quad')]
-
+        parameters=[{"robot_description": robot_description}]
     )
 
     static_transform = launch_ros.actions.Node(
@@ -62,7 +60,7 @@ def generate_launch_description():
     	package='gazebo_ros', 
         name='quad_spawner',
     	executable='spawn_entity.py',
-        arguments=['-entity', 'quad', '-topic', 'robot_description_quad', '-x', '0.0', '-y', '0.0', '-z', '0.0', '-Y', '0.0'],
+        arguments=['-entity', 'quad', '-topic', 'robot_description', '-x', '0.0', '-y', '0.0', '-z', '0.0', '-Y', '0.0'],
         output='screen'
     )
 
@@ -87,6 +85,6 @@ def generate_launch_description():
         robot_state_publisher_node_quad,
         # static_transform,
         spawn_quad,
-        # joint_state_publisher_node_quad,
-        # joint_state_publisher_gui_node_quad
+        joint_state_publisher_node_quad,
+        joint_state_publisher_gui_node_quad
     ])
