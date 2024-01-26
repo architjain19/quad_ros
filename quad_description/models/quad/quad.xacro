@@ -44,7 +44,7 @@
   <xacro:property name="base_length" value="0.325"/>
   <xacro:property name="base_height" value="0.025"/>
   <xacro:property name="base_mass" value="0.4"/>
-  <xacro:property name="quad_height" value="0.15"/>
+  <xacro:property name="quad_height" value="0.3"/>
 
   <!-- ****************** ROBOT BASE FOOTPRINT ***************************  -->
   <!-- Define the center of the main robot chassis projected on the ground -->	
@@ -52,7 +52,7 @@
 
   <!-- The base footprint of the robot is located underneath the chassis -->
   <joint name="base_joint" type="fixed">
-    <origin xyz="0.5 0.5 0" rpy="0 0 0"/>
+    <origin xyz="0 0 ${quad_height}" rpy="1.571428571 0 0"/>
     <parent link="world"/>
     <child link="base_link" />
   </joint>
@@ -60,75 +60,45 @@
   <!-- ********************** ROBOT BASE *********************************  -->
   <link name="base_link">
     <visual>
-      <origin xyz="0 0 ${quad_height}" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="${base_length} ${base_width} ${base_height}"/>
+        <mesh filename="file://$(find quad_description)/meshes/base.obj" scale=".001 .001 .001"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 ${quad_height}" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="${base_length} ${base_width} ${base_height}"/>
+        <mesh filename="file://$(find quad_description)/meshes/base.obj" scale=".001 .001 .001"/>
       </geometry>
     </collision>
-    <xacro:box_inertia m="${base_mass}" w="${base_width}" d="${base_length}" h="${base_height}">
-      <origin xyz="0 0 ${quad_height}" rpy="1.57 0 1.57"/>
+    <xacro:box_inertia m="0.02" w="0.060" d="0.110" h="0.110">
+      <origin xyz="0 0.030 0" rpy="1.571428571 0 0"/>
     </xacro:box_inertia>
   </link>
 
-  <joint name="leg_joint" type="revolute">
-    <origin xyz="${(base_length/2) + 0.005} ${(base_width/2) - 0.1} ${quad_height}" rpy="1.57 0 1.57"/>
+  <joint name="thigh_joint" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
     <parent link="base_link"/>
-    <child link="leg" />
-    <axis xyz="0 0 1" />
-    <limit effort="10.0" lower="-1.57" upper="1.57" velocity="0.5"/>
+    <child link="thigh_link" />
+    <axis xyz="0 1 0" />
+    <limit effort="200.0" lower="-1.571428571" upper="1.571428571" velocity="1.0"/>
   </joint>
 
-  <!-- ********************** LEG *********************************  -->
-  <link name="leg">
+  <link name="thigh_link">
     <visual>
-      <origin xyz="-0.010700 -0.086500 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/quad_leg.obj" scale=".001 .001 .001"/>
+        <mesh filename="file://$(find quad_description)/meshes/thigh.obj" scale=".001 .001 .001"/>
       </geometry>
     </visual>
     <collision>
-      <origin xyz="-0.010700 -0.086500 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/quad_leg.obj" scale=".001 .001 .001"/>
-        <!-- <box size="0.04 0.065 0.2"/> -->
+        <mesh filename="file://$(find quad_description)/meshes/thigh.obj" scale=".001 .001 .001"/>
       </geometry>
     </collision>
-    <xacro:box_inertia m="0.1" w="0.033" d="0.075" h="0.16">
-      <origin xyz="0.003 -0.055 0.016" rpy="0 0 0"/>
-    </xacro:box_inertia>
-  </link>
-
-  <joint name="limb_joint" type="revolute">
-    <origin xyz="0 -0.1095 0" rpy="0 0 0"/>
-    <parent link="leg" />
-    <child link="limb" />
-    <axis xyz="0 0 1" />
-    <limit effort="10.0" lower="-1.57" upper="1.57" velocity="0.5"/>
-    <!-- <dynamics damping="1.0" /> -->
-  </joint>
-
-  <!-- ********************** LEG *********************************  -->
-  <link name="limb">
-    <visual>
-      <origin xyz="-0.01 0.023 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/quad_limb.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin xyz="-0.01 0.023 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/quad_limb.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </collision>
-    <xacro:box_inertia m="0.08" w="0.0375" d="0.04375" h="0.13">
-      <origin xyz="0.0025 -0.04 0.015" rpy="0 0 0"/>
+    <xacro:box_inertia m="0.015" w="0.050" d="0.270" h="0.110">
+      <origin xyz="0 -0.110 0" rpy="1.571428571 0 0"/>
     </xacro:box_inertia>
   </link>
 

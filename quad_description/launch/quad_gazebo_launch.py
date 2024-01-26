@@ -44,7 +44,7 @@ def generate_launch_description():
 
     robot_state_publisher_node_quad = launch_ros.actions.Node(
         package='robot_state_publisher',
-        name='quad_RD',
+        name='robot_state_publisher',
         executable='robot_state_publisher',
         parameters=[{"robot_description": robot_description}]
     )
@@ -83,8 +83,8 @@ def generate_launch_description():
                                             description='Flag to enable use_sim_time'),
         start_world,
         robot_state_publisher_node_quad,
+        spawn_quad
         # static_transform,
-        spawn_quad,
-        joint_state_publisher_node_quad
+        # joint_state_publisher_node_quad,
         # joint_state_publisher_gui_node_quad
     ])
