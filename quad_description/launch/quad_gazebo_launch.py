@@ -85,6 +85,6 @@ def generate_launch_description():
         robot_state_publisher_node_quad,
         # static_transform,
         spawn_quad,
-        joint_state_publisher_node_quad,
-        joint_state_publisher_gui_node_quad
+        joint_state_publisher_node_quad
+        # joint_state_publisher_gui_node_quad
     ])

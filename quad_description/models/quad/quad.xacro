@@ -11,6 +11,8 @@
 -->
 <robot name="quad" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <xacro:include filename="$(find quad_description)/models/quad/quad_gazebo.xacro" />
+
   <!-- ****************** BASIC INERTIAL MACROS ***************************  -->
   <!-- Define intertial property macros  -->
   <xacro:macro name="box_inertia" params="m w h d *origin">

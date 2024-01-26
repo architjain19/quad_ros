@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!-- 
+*****************************************************************************************
+*
+*  Filename:			quad.gazebo
+*  Created:				22/12/2023
+*  Last Modified:	22/12/2023
+*  Author:				Archit Jain
+*  
+*****************************************************************************************
+-->
+
+<robot name="quad" 
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <gazebo reference="base_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="leg">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="limb">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+
+</robot>
