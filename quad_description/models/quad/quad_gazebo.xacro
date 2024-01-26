@@ -17,11 +17,11 @@
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="leg">
+  <gazebo reference="thigh_link">
     <material>Gazebo/Orange</material>
   </gazebo>
 
-  <gazebo reference="limb">
+  <gazebo reference="leg_link">
     <material>Gazebo/Black</material>
   </gazebo>
 

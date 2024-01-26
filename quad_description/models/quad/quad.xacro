@@ -11,6 +11,7 @@
 -->
 <robot name="quad" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <!-- ****************** INCLUDE OTHER MACROS ***************************  -->
   <xacro:include filename="$(find quad_description)/models/quad/quad_gazebo.xacro" />
 
   <!-- ****************** BASIC INERTIAL MACROS ***************************  -->
@@ -44,7 +45,7 @@
   <xacro:property name="base_length" value="0.325"/>
   <xacro:property name="base_height" value="0.025"/>
   <xacro:property name="base_mass" value="0.4"/>
-  <xacro:property name="quad_height" value="0.3"/>
+  <xacro:property name="quad_height" value="0.5"/>
 
   <!-- ****************** ROBOT BASE FOOTPRINT ***************************  -->
   <!-- Define the center of the main robot chassis projected on the ground -->	
@@ -84,6 +85,7 @@
     <limit effort="200.0" lower="-1.571428571" upper="1.571428571" velocity="1.0"/>
   </joint>
 
+  <!-- ********************** THIGH LINK *********************************  -->
   <link name="thigh_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -99,6 +101,33 @@
     </collision>
     <xacro:box_inertia m="0.015" w="0.050" d="0.270" h="0.110">
       <origin xyz="0 -0.110 0" rpy="1.571428571 0 0"/>
+    </xacro:box_inertia>
+  </link>
+
+  <joint name="leg_joint" type="revolute">
+    <origin xyz="0 -0.220 0" rpy="0 0 0"/>
+    <parent link="thigh_link"/>
+    <child link="leg_link" />
+    <axis xyz="0 1 0" />
+    <limit effort="200.0" lower="-1.571428571" upper="1.571428571" velocity="1.0"/>
+  </joint>
+
+  <!-- ********************** LEG LINK *********************************  -->
+  <link name="leg_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find quad_description)/meshes/leg.obj" scale=".001 .001 .001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file://$(find quad_description)/meshes/leg.obj" scale=".001 .001 .001"/>
+      </geometry>
+    </collision>
+    <xacro:box_inertia m="0.0125" w="0.050" d="0.200" h="0.060">
+      <origin xyz="0 -0.075 0" rpy="1.571428571 0 0"/>
     </xacro:box_inertia>
   </link>
 
