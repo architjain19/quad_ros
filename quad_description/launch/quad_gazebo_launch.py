@@ -76,6 +76,19 @@ def generate_launch_description():
         executable="joint_state_publisher_gui"
     )
 
+    joint_state_broadcaster_spawner = launch_ros.actions.Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+    )
+
+    spawn_controller = launch_ros.actions.Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_group_controller", "--controller-manager", "/controller_manager"],
+        output="screen",
+    )
+
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(name='gui', default_value='True',
                                             description='Flag to enable joint_state_publisher_gui'),
@@ -83,7 +96,9 @@ def generate_launch_description():
                                             description='Flag to enable use_sim_time'),
         start_world,
         robot_state_publisher_node_quad,
-        spawn_quad
+        spawn_quad,
+        joint_state_broadcaster_spawner,
+        spawn_controller
         # static_transform,
         # joint_state_publisher_node_quad,
         # joint_state_publisher_gui_node_quad
