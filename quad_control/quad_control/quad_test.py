@@ -1,3 +1,12 @@
+# *****************************************************************************************
+# *
+# *  Filename:              quad_test.py
+# *  Created:				27/01/2024
+# *  Last Modified:	        27/01/2024
+# *  Author:				Archit Jain
+# *  
+# *****************************************************************************************
+
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray
@@ -8,7 +17,7 @@ class HopperWalker(Node):
     def __init__(self):
         super().__init__('hopper_walker')
 
-        self.leg_link = 0.175
+        self.leg_link = 0.205
         self.thigh_link = 0.220
         self.joint_limit = 2.00712863979
 

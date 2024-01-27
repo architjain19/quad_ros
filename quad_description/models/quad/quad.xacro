@@ -2,10 +2,10 @@
 <!--  
 *****************************************************************************************
 *
-*  Filename:			quad.xacro
-*  Created:				22/12/2023
-*  Last Modified:	22/12/2023
-*  Author:				Archit Jain
+*  Filename:			    quad.xacro
+*  Created:				    22/12/2023
+*  Last Modified:	    27/01/2024
+*  Author:				    Archit Jain
 *  
 *****************************************************************************************
 -->
@@ -130,8 +130,8 @@
         <mesh filename="file://$(find quad_description)/meshes/leg.obj" scale=".001 .001 .001"/>
       </geometry>
     </collision>
-    <xacro:box_inertia m="0.0125" w="0.050" d="0.200" h="0.060">
-      <origin xyz="0 -0.075 0" rpy="1.571428571 0 0"/>
+    <xacro:box_inertia m="0.0125" w="0.050" d="0.230" h="0.060">
+      <origin xyz="0 -0.090 0" rpy="1.571428571 0 0"/>
     </xacro:box_inertia>
   </link>
 
