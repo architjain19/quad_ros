@@ -46,6 +46,7 @@
   <xacro:property name="base_height" value="0.025"/>
   <xacro:property name="base_mass" value="0.4"/>
   <xacro:property name="quad_height" value="1.0"/>
+  <xacro:property name="joint_limit" value="2.00712863979"/>      <!-- 115 degree -->
 
   <!-- ****************** ROBOT BASE FOOTPRINT ***************************  -->
   <!-- Define the center of the main robot chassis projected on the ground -->	
@@ -83,7 +84,7 @@
     <parent link="base_link"/>
     <child link="thigh_link" />
     <axis xyz="0 0 1" />
-    <limit effort="1.5" lower="-1.571428571" upper="1.571428571" velocity="1.0"/>
+    <limit effort="1.5" lower="-${joint_limit}" upper="${joint_limit}" velocity="1.0"/>
     <dynamics damping="10.0" friction="1000.0" />
   </joint>
 
@@ -111,7 +112,7 @@
     <parent link="thigh_link"/>
     <child link="leg_link" />
     <axis xyz="0 0 1" />
-    <limit effort="1.5" lower="-1.571428571" upper="1.571428571" velocity="1.0"/>
+    <limit effort="1.5" lower="-${joint_limit}" upper="${joint_limit}" velocity="1.0"/>
     <dynamics damping="10.0" friction="1000.0" />
   </joint>
 

@@ -13,6 +13,8 @@
 <robot name="quad" 
   xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <xacro:property name="joint_limit" value="2.00712863979"/>    <!-- 115 degree -->
+
   <gazebo reference="base_link">
     <material>Gazebo/Black</material>
   </gazebo>
@@ -36,8 +38,8 @@
     </hardware>
     <joint name="thigh_joint">
       <command_interface name="position">
-        <param name="min">-1.571428571</param>
-        <param name="max">1.571428571</param>
+        <param name="min">-${joint_limit}</param>
+        <param name="max">${joint_limit}</param>
       </command_interface>
       <state_interface name="position" />
       <state_interface name="velocity" />
@@ -45,8 +47,8 @@
     </joint>
     <joint name="leg_joint">
       <command_interface name="position">
-        <param name="min">-1.571428571</param>
-        <param name="max">1.571428571</param>
+        <param name="min">-${joint_limit}</param>
+        <param name="max">${joint_limit}</param>
       </command_interface>
       <state_interface name="position" />
       <state_interface name="velocity" />
