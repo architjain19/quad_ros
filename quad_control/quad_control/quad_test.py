@@ -14,13 +14,21 @@ class HopperWalker(Node):
 
         self.publisher = self.create_publisher(Float64MultiArray, '/joint_group_controller/commands', 10)
 
-        self.publish_joint_angles(self.deg_to_rad(-30), self.deg_to_rad(90))
-
-        self.follow_sine_wave_path(0.25, 0.0, 0.25, 0.3, 2, 0.05)
+        # self.publish_joint_angles(self.deg_to_rad(-30), self.deg_to_rad(90))
 
         # ang1, ang2 = self.ik_solver(0.25, -0.1)
         # if ang1 is not None and ang2 is not None:
             # self.publish_joint_angles(self.deg_to_rad(ang1), self.deg_to_rad(ang2))
+
+        # Path parameters
+        self.x_start, self.y_start = 0.25, 0.2
+        self.x_end, self.y_end = 0.25, 0.0
+        self.frequency, self.amplitude = 2, 0.05
+        self.current_step = 0
+        self.num_steps = 100
+
+        # Timer and path state
+        self.timer = self.create_timer(0.1, self.follow_sine_wave_path)  # Timer with callback every 0.1 seconds
 
     def deg_to_rad(self, angle):
         return angle*3.14159265359/180.0
@@ -68,18 +76,26 @@ class HopperWalker(Node):
             # Handle math domain errors
             self.get_logger().warn(f"Math domain error occurred: {e}")
             return None, None
-    
-    def follow_sine_wave_path(self, x_start, y_start, x_end, y_end, frequency, amplitude):
-        num_steps = 100
-        for step in range(num_steps + 1):
-            y = y_start + (y_end - y_start) * (step / num_steps)
-            sine_offset = amplitude * np.sin(frequency * np.pi * step / num_steps)
-            y_with_offset = y + sine_offset
-            theta1_deg, theta2_deg = self.ik_solver(x_start, y_with_offset)
-            if theta1_deg is not None and theta2_deg is not None:
-                self.publish_joint_angles(self.deg_to_rad(theta1_deg), self.deg_to_rad(theta2_deg))
-            else:
-                print("Unable to calculate or publish joint angles for point:", x_start, y_with_offset)
+
+    def follow_sine_wave_path(self):
+        if self.current_step > self.num_steps:
+            self.timer.cancel()  # Stop the timer if the path is complete
+            self.get_logger().info(f"Path completed")
+            return
+
+        y = self.y_start + (self.y_end - self.y_start) * (self.current_step / self.num_steps)
+        sine_offset = self.amplitude * np.sin(self.frequency * np.pi * self.current_step / self.num_steps)
+        y_with_offset = y + sine_offset
+        theta1_deg, theta2_deg = self.ik_solver(self.x_start, y_with_offset)
+        if theta1_deg is not None and theta2_deg is not None:
+            self.publish_joint_angles(self.deg_to_rad(theta1_deg), self.deg_to_rad(theta2_deg))
+        else:
+            self.get_logger().warn(f"Unable to calculate or publish joint angles for point {self.x_start}, {y_with_offset}")
+            self.get_logger().info(f"Try again!!!")
+            self.timer.cancel()  # Stop the timer if the path is incomplete/unreachable
+            return
+
+        self.current_step += 1
 
 
 def main(args=None):
