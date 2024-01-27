@@ -18,10 +18,9 @@ class HopperWalker(Node):
 
         self.follow_sine_wave_path(0.25, 0.0, 0.25, 0.3, 2, 0.05)
 
-
         # ang1, ang2 = self.ik_solver(0.25, -0.1)
         # if ang1 is not None and ang2 is not None:
-        #     self.publish_joint_angles(ang1, ang2)
+            # self.publish_joint_angles(self.deg_to_rad(ang1), self.deg_to_rad(ang2))
 
     def deg_to_rad(self, angle):
         return angle*3.14159265359/180.0
@@ -79,8 +78,6 @@ class HopperWalker(Node):
             theta1_deg, theta2_deg = self.ik_solver(x_start, y_with_offset)
             if theta1_deg is not None and theta2_deg is not None:
                 self.publish_joint_angles(self.deg_to_rad(theta1_deg), self.deg_to_rad(theta2_deg))
-                import time
-                time.sleep(0.5)
             else:
                 print("Unable to calculate or publish joint angles for point:", x_start, y_with_offset)
 
