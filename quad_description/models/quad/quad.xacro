@@ -45,16 +45,17 @@
   <xacro:property name="base_length" value="0.325"/>
   <xacro:property name="base_height" value="0.025"/>
   <xacro:property name="base_mass" value="0.4"/>
-  <xacro:property name="quad_height" value="0.5"/>
+  <xacro:property name="quad_height" value="1.0"/>
 
   <!-- ****************** ROBOT BASE FOOTPRINT ***************************  -->
   <!-- Define the center of the main robot chassis projected on the ground -->	
-  <link name="world"/>
+  <link name="base_footprint" />
+
 
   <!-- The base footprint of the robot is located underneath the chassis -->
   <joint name="base_joint" type="fixed">
     <origin xyz="0 0 ${quad_height}" rpy="1.571428571 0 0"/>
-    <parent link="world"/>
+    <parent link="base_footprint"/>
     <child link="base_link" />
   </joint>
 
@@ -82,7 +83,8 @@
     <parent link="base_link"/>
     <child link="thigh_link" />
     <axis xyz="0 0 1" />
-    <limit effort="200.0" lower="-1.571428571" upper="1.571428571" velocity="1.0"/>
+    <limit effort="1.5" lower="-1.571428571" upper="1.571428571" velocity="1.0"/>
+    <dynamics damping="10.0" friction="1000.0" />
   </joint>
 
   <!-- ********************** THIGH LINK *********************************  -->
@@ -109,7 +111,8 @@
     <parent link="thigh_link"/>
     <child link="leg_link" />
     <axis xyz="0 0 1" />
-    <limit effort="200.0" lower="-1.571428571" upper="1.571428571" velocity="1.0"/>
+    <limit effort="1.5" lower="-1.571428571" upper="1.571428571" velocity="1.0"/>
+    <dynamics damping="10.0" friction="1000.0" />
   </joint>
 
   <!-- ********************** LEG LINK *********************************  -->
