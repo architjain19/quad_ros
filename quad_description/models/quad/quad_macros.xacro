@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!-- 
+*****************************************************************************************
+*
+*  Filename:			    quad_macros.xacro
+*  Created:				    29/01/2024
+*  Last Modified:	    29/01/2024
+*  Author:				    Archit Jain
+*  
+*****************************************************************************************
+-->
+
+<robot name="quad" 
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="hip_link" params="link_name">
+    <link name="${link_name}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find quad_description)/meshes/hip.obj" scale=".001 .001 .001"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find quad_description)/meshes/hip.obj" scale=".001 .001 .001"/>
+        </geometry>
+      </collision>
+      <xacro:box_inertia m="0.02" w="0.060" d="0.110" h="0.110">
+        <origin xyz="0 0.030 0" rpy="1.571428571 0 0"/>
+      </xacro:box_inertia>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="fixed_joint" params="joint_name parent_link child_link pos_x pos_y pos_z rot_x rot_y rot_z">
+    <joint name="${joint_name}" type="fixed">
+      <origin xyz="${pos_x} ${pos_y} ${pos_z}" rpy="${rot_x} ${rot_y} ${rot_z}"/>
+      <parent link="${parent_link}"/>
+      <child link="${child_link}" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="revolute_joint" params="joint_name parent_link child_link pos_x pos_y pos_z rot_x rot_y rot_z axis_x axis_y axis_z joint_limit_u joint_limit_l effort velocity damping friction">
+    <joint name="${joint_name}" type="revolute">
+      <origin xyz="${pos_x} ${pos_y} ${pos_z}" rpy="${rot_x} ${rot_y} ${rot_z}"/>
+      <parent link="${parent_link}"/>
+      <child link="${child_link}" />
+      <axis xyz="${axis_x} ${axis_y} ${axis_z}" />
+      <limit effort="${effort}" lower="${joint_limit_l}" upper="${joint_limit_u}" velocity="${velocity}"/>
+      <dynamics damping="${damping}" friction="${friction}" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="base_link" params="link_name">
+    <link name="${link_name}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find quad_description)/meshes/base_link.obj" scale=".001 .001 .001"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find quad_description)/meshes/base_link.obj" scale=".001 .001 .001"/>
+        </geometry>
+      </collision>
+      <xacro:box_inertia m="0.050" w="0.030" d="0.730" h="0.440">
+        <origin xyz="0 -0.015 0" rpy="1.571428571 0 1.571428571"/>
+      </xacro:box_inertia>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="thigh_link" params="link_name">
+    <link name="${link_name}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find quad_description)/meshes/thigh.obj" scale=".001 .001 .001"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find quad_description)/meshes/thigh.obj" scale=".001 .001 .001"/>
+        </geometry>
+      </collision>
+      <xacro:box_inertia m="0.015" w="0.050" d="0.270" h="0.110">
+        <origin xyz="0 -0.110 0" rpy="1.571428571 0 0"/>
+      </xacro:box_inertia>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="leg_link" params="link_name">
+    <link name="${link_name}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find quad_description)/meshes/leg.obj" scale=".001 .001 .001"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find quad_description)/meshes/leg.obj" scale=".001 .001 .001"/>
+        </geometry>
+      </collision>
+      <xacro:box_inertia m="0.0125" w="0.050" d="0.245" h="0.060">
+        <origin xyz="0 -0.0975 0" rpy="1.571428571 0 0"/>
+      </xacro:box_inertia>
+    </link>
+  </xacro:macro>
+
+</robot>

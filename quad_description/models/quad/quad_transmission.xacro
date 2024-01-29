@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!-- 
+*****************************************************************************************
+*
+*  Filename:			    quad_transmission.xacro
+*  Created:				    29/01/2024
+*  Last Modified:	    29/01/2024
+*  Author:				    Archit Jain
+*  
+*****************************************************************************************
+-->
+
+<robot name="quad" 
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <transmission name="trans_thigh_fr">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="thigh_joint_fr">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_thigh_fr">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>5</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_leg_fr">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="leg_joint_fr">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_leg_fr">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>5</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+</robot>

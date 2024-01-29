@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!-- 
+*****************************************************************************************
+*
+*  Filename:			    quad_ros2_control.xacro
+*  Created:				    29/01/2024
+*  Last Modified:	    29/01/2024
+*  Author:				    Archit Jain
+*  
+*****************************************************************************************
+-->
+
+<robot name="quad" 
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    <joint name="thigh_joint_fr">
+      <command_interface name="position">
+        <param name="min">-${joint_limit}</param>
+        <param name="max">${joint_limit}</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+    <joint name="leg_joint_fr">
+      <command_interface name="position">
+        <param name="min">-${joint_limit}</param>
+        <param name="max">${joint_limit}</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+  </ros2_control>
+
+</robot>

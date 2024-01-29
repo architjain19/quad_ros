@@ -18,5 +18,5 @@ joint_group_controller:
     state_publish_rate: 100.0 # Defaults to 50
     action_monitor_rate: 20.0 # Defaults to 20
     joints:
-      - thigh_joint
-      - leg_joint
+      - thigh_joint_fr
+      - leg_joint_fr

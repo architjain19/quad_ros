@@ -14,6 +14,9 @@
 
   <!-- ****************** INCLUDE OTHER MACROS ***************************  -->
   <xacro:include filename="$(find quad_description)/models/quad/quad_gazebo.xacro" />
+  <xacro:include filename="$(find quad_description)/models/quad/quad_macros.xacro" />
+  <xacro:include filename="$(find quad_description)/models/quad/quad_ros2_control.xacro" />
+  <xacro:include filename="$(find quad_description)/models/quad/quad_transmission.xacro" />
 
   <!-- ****************** BASIC INERTIAL MACROS ***************************  -->
   <!-- Define intertial property macros  -->
@@ -53,112 +56,47 @@
   <!-- Define the center of the main robot chassis projected on the ground -->	
   <link name="base_footprint" />
 
-  <!-- The base footprint of the robot is located underneath the chassis -->
-  <joint name="base_joint" type="fixed">
-    <origin xyz="0 0 ${quad_height}" rpy="1.571428571 0 0"/>
-    <parent link="base_footprint"/>
-    <child link="base_link" />
-  </joint>
+  <xacro:fixed_joint 
+    joint_name="base_joint" 
+    parent_link="base_footprint" 
+    child_link="base_link"
+    pos_x="0" pos_y="0" pos_z="${quad_height}" 
+    rot_x="1.571428571" rot_y="0" rot_z="0"/>
 
   <!-- ********************** ROBOT BASELINK *********************************  -->
-  <link name="base_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/base_link.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/base_link.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </collision>
-    <xacro:box_inertia m="0.050" w="0.030" d="0.730" h="0.440">
-      <origin xyz="0 -0.015 0" rpy="1.571428571 0 1.571428571"/>
-    </xacro:box_inertia>
-  </link>
+  <xacro:base_link link_name="base_link"/>
 
-  <joint name="hip_joint" type="fixed">
-    <origin xyz="0.300 -0.090 0.165" rpy="0 0 0"/>
-    <parent link="base_link"/>
-    <child link="hip_link" />
-  </joint>
+  <xacro:fixed_joint 
+    joint_name="hip_joint_fr" 
+    parent_link="base_link" 
+    child_link="hip_link_fr"
+    pos_x="0.300" pos_y="-0.090" pos_z="0.165" 
+    rot_x="0" rot_y="0" rot_z="0"/>
 
-  <!-- ********************** HIP LINK *********************************  -->
-  <link name="hip_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/hip.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/hip.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </collision>
-    <xacro:box_inertia m="0.02" w="0.060" d="0.110" h="0.110">
-      <origin xyz="0 0.030 0" rpy="1.571428571 0 0"/>
-    </xacro:box_inertia>
-  </link>
+  <xacro:hip_link link_name="hip_link_fr"/>
 
-  <joint name="thigh_joint" type="revolute">
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <parent link="hip_link"/>
-    <child link="thigh_link" />
-    <axis xyz="0 0 1" />
-    <limit effort="1.5" lower="-${joint_limit}" upper="${joint_limit}" velocity="1.0"/>
-    <dynamics damping="10.0" friction="1000.0" />
-  </joint>
+  <xacro:revolute_joint 
+    joint_name="thigh_joint_fr" 
+    parent_link="hip_link_fr" 
+    child_link="thigh_link_fr"
+    axis_x="0" axis_y="0" axis_z="1"
+    pos_x="0" pos_y="0" pos_z="0"
+    rot_x="0" rot_y="0" rot_z="0"
+    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
+    damping="10.0" friction="1000.0" />
 
-  <!-- ********************** THIGH LINK *********************************  -->
-  <link name="thigh_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/thigh.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/thigh.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </collision>
-    <xacro:box_inertia m="0.015" w="0.050" d="0.270" h="0.110">
-      <origin xyz="0 -0.110 0" rpy="1.571428571 0 0"/>
-    </xacro:box_inertia>
-  </link>
+  <xacro:thigh_link link_name="thigh_link_fr"/>
 
-  <joint name="leg_joint" type="revolute">
-    <origin xyz="0 -0.220 0" rpy="0 0 0"/>
-    <parent link="thigh_link"/>
-    <child link="leg_link" />
-    <axis xyz="0 0 1" />
-    <limit effort="1.5" lower="-${joint_limit}" upper="${joint_limit}" velocity="1.0"/>
-    <dynamics damping="10.0" friction="1000.0" />
-  </joint>
+  <xacro:revolute_joint 
+    joint_name="leg_joint_fr" 
+    parent_link="thigh_link_fr" 
+    child_link="leg_link_fr"
+    axis_x="0" axis_y="0" axis_z="1"
+    pos_x="0" pos_y="-0.220" pos_z="0"
+    rot_x="0" rot_y="0" rot_z="0"
+    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
+    damping="10.0" friction="1000.0" />
 
-  <!-- ********************** LEG LINK *********************************  -->
-  <link name="leg_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/leg.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/leg.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </collision>
-    <xacro:box_inertia m="0.0125" w="0.050" d="0.245" h="0.060">
-      <origin xyz="0 -0.0975 0" rpy="1.571428571 0 0"/>
-    </xacro:box_inertia>
-  </link>
-
+  <xacro:leg_link link_name="leg_link_fr"/>
 
 </robot>

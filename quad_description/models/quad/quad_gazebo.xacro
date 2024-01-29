@@ -2,7 +2,7 @@
 <!-- 
 *****************************************************************************************
 *
-*  Filename:			    quad.gazebo
+*  Filename:			    quad_gazebo.xacro
 *  Created:				    22/12/2023
 *  Last Modified:	    29/01/2024
 *  Author:				    Archit Jain
@@ -19,15 +19,15 @@
     <material>Gazebo/Orange</material>
   </gazebo>
 
-  <gazebo reference="hip_link">
+  <gazebo reference="hip_link_fr">
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="thigh_link">
+  <gazebo reference="thigh_link_fr">
     <material>Gazebo/Orange</material>
   </gazebo>
 
-  <gazebo reference="leg_link">
+  <gazebo reference="leg_link_fr">
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -35,63 +35,13 @@
     <material>Gazebo/Black</material>
   </gazebo>
 
-
-  <ros2_control name="GazeboSystem" type="system">
-    <hardware>
-      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
-    </hardware>
-    <joint name="thigh_joint">
-      <command_interface name="position">
-        <param name="min">-${joint_limit}</param>
-        <param name="max">${joint_limit}</param>
-      </command_interface>
-      <state_interface name="position" />
-      <state_interface name="velocity" />
-      <state_interface name="effort" />
-    </joint>
-    <joint name="leg_joint">
-      <command_interface name="position">
-        <param name="min">-${joint_limit}</param>
-        <param name="max">${joint_limit}</param>
-      </command_interface>
-      <state_interface name="position" />
-      <state_interface name="velocity" />
-      <state_interface name="effort" />
-    </joint>
-  </ros2_control>
-
-
-  <transmission name="trans_thigh">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="thigh_joint">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_thigh">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>5</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-  <transmission name="trans_leg">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="leg_joint">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor_leg">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>5</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-
   <gazebo>
     <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
       <parameters>$(find quad_description)/config/quad_controllers.yaml</parameters>
     </plugin>
   </gazebo>
 
-
-  <gazebo reference="thigh_link">
+  <gazebo reference="thigh_link_fr">
     <collision>
       <surface>
         <friction>
@@ -113,7 +63,7 @@
     </collision>
   </gazebo>
 
-  <gazebo reference="leg_link">
+  <gazebo reference="leg_link_fr">
     <collision>
       <surface>
         <friction>
