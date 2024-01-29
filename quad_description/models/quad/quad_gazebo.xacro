@@ -47,6 +47,30 @@
     <material>Gazebo/Black</material>
   </gazebo>
 
+  <gazebo reference="hip_link_rr">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="thigh_link_rr">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="leg_link_rr">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="hip_link_rl">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="thigh_link_rl">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="leg_link_rl">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
   <gazebo>
     <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
       <parameters>$(find quad_description)/config/quad_controllers.yaml</parameters>

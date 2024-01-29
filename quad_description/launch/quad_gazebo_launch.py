@@ -96,6 +96,20 @@ def generate_launch_description():
         output="screen",
     )
 
+    spawn_controller_rr = launch_ros.actions.Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_group_controller_rr", "--controller-manager", "/controller_manager"],
+        output="screen",
+    )
+
+    spawn_controller_rl = launch_ros.actions.Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_group_controller_rl", "--controller-manager", "/controller_manager"],
+        output="screen",
+    )
+
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(name='gui', default_value='True',
                                             description='Flag to enable joint_state_publisher_gui'),
@@ -106,7 +120,9 @@ def generate_launch_description():
         spawn_quad,
         joint_state_broadcaster_spawner,
         spawn_controller_fr,
-        spawn_controller_fl
+        spawn_controller_fl,
+        spawn_controller_rr,
+        spawn_controller_rl
         # static_transform,
         # joint_state_publisher_node_quad,
         # joint_state_publisher_gui_node_quad

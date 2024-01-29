@@ -134,4 +134,72 @@
 
   <xacro:leg_link link_name="leg_link_fl"/>
 
+  <!-- ********************** REAR RIGHT LINKS *********************************  -->
+  <xacro:fixed_joint 
+    joint_name="hip_joint_rr" 
+    parent_link="base_link" 
+    child_link="hip_link_rr"
+    pos_x="-0.300" pos_y="-0.090" pos_z="0.165" 
+    rot_x="0" rot_y="0" rot_z="0"/>
+
+  <xacro:hip_link link_name="hip_link_rr"/>
+
+  <xacro:revolute_joint 
+    joint_name="thigh_joint_rr" 
+    parent_link="hip_link_rr" 
+    child_link="thigh_link_rr"
+    axis_x="0" axis_y="0" axis_z="1"
+    pos_x="0" pos_y="0" pos_z="0"
+    rot_x="0" rot_y="0" rot_z="0"
+    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
+    damping="10.0" friction="1000.0" />
+
+  <xacro:thigh_link link_name="thigh_link_rr"/>
+
+  <xacro:revolute_joint 
+    joint_name="leg_joint_rr" 
+    parent_link="thigh_link_rr" 
+    child_link="leg_link_rr"
+    axis_x="0" axis_y="0" axis_z="1"
+    pos_x="0" pos_y="-0.220" pos_z="0"
+    rot_x="0" rot_y="0" rot_z="0"
+    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
+    damping="10.0" friction="1000.0" />
+
+  <xacro:leg_link link_name="leg_link_rr"/>
+
+  <!-- ********************** REAR LEFT LINKS *********************************  -->
+  <xacro:fixed_joint 
+    joint_name="hip_joint_rl" 
+    parent_link="base_link" 
+    child_link="hip_link_rl"
+    pos_x="-0.300" pos_y="-0.090" pos_z="-0.165" 
+    rot_x="0" rot_y="0" rot_z="0"/>
+
+  <xacro:hip_link link_name="hip_link_rl"/>
+
+  <xacro:revolute_joint 
+    joint_name="thigh_joint_rl" 
+    parent_link="hip_link_rl" 
+    child_link="thigh_link_rl"
+    axis_x="0" axis_y="0" axis_z="1"
+    pos_x="0" pos_y="0" pos_z="0"
+    rot_x="0" rot_y="0" rot_z="0"
+    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
+    damping="10.0" friction="1000.0" />
+
+  <xacro:thigh_link link_name="thigh_link_rl"/>
+
+  <xacro:revolute_joint 
+    joint_name="leg_joint_rl" 
+    parent_link="thigh_link_rl" 
+    child_link="leg_link_rl"
+    axis_x="0" axis_y="0" axis_z="1"
+    pos_x="0" pos_y="-0.220" pos_z="0"
+    rot_x="0" rot_y="0" rot_z="0"
+    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
+    damping="10.0" friction="1000.0" />
+
+  <xacro:leg_link link_name="leg_link_rl"/>
+
 </robot>
