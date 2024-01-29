@@ -21,7 +21,8 @@ class HopperWalker(Node):
         self.thigh_link = 0.220
         self.joint_limit = 2.00712863979
 
-        self.publisher = self.create_publisher(Float64MultiArray, '/joint_group_controller/commands', 10)
+        self.publisher_fr = self.create_publisher(Float64MultiArray, '/joint_group_controller_fr/commands', 10)
+        self.publisher_fl = self.create_publisher(Float64MultiArray, '/joint_group_controller_fl/commands', 10)
 
         # self.publish_joint_angles(self.deg_to_rad(-30), self.deg_to_rad(90))
 
@@ -51,7 +52,8 @@ class HopperWalker(Node):
 
         joint_positions = Float64MultiArray()
         joint_positions.data = [angle1, angle2]
-        self.publisher.publish(joint_positions)        
+        self.publisher_fr.publish(joint_positions)        
+        # self.publisher_fl.publish(joint_positions)        
 
     def ik_solver(self, x, y):
         L1 = self.leg_link

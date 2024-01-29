@@ -19,6 +19,10 @@
     <material>Gazebo/Orange</material>
   </gazebo>
 
+  <gazebo reference="base_footprint">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
   <gazebo reference="hip_link_fr">
     <material>Gazebo/Black</material>
   </gazebo>
@@ -31,7 +35,15 @@
     <material>Gazebo/Black</material>
   </gazebo>
 
-  <gazebo reference="base_footprint">
+  <gazebo reference="hip_link_fl">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="thigh_link_fl">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+  <gazebo reference="leg_link_fl">
     <material>Gazebo/Black</material>
   </gazebo>
 
@@ -64,6 +76,50 @@
   </gazebo>
 
   <gazebo reference="leg_link_fr">
+    <collision>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1</mu>
+            <mu2>100</mu2>
+            <slip1>100.1</slip1>
+            <slip2>100.1</slip2>
+          </ode>
+        </friction>
+        <contact>
+          <ode>
+            <kp>1000000.0</kp>
+            <kd>100.0</kd>
+            <min_depth>0.001</min_depth>
+          </ode>
+        </contact>
+      </surface>
+    </collision>
+  </gazebo>
+
+  <gazebo reference="thigh_link_fl">
+    <collision>
+      <surface>
+        <friction>
+          <ode>
+            <mu>1</mu>
+            <mu2>100</mu2>
+            <slip1>100.1</slip1>
+            <slip2>100.1</slip2>
+          </ode>
+        </friction>
+        <contact>
+          <ode>
+            <kp>1000000.0</kp>
+            <kd>100.0</kd>
+            <min_depth>0.001</min_depth>
+          </ode>
+        </contact>
+      </surface>
+    </collision>
+  </gazebo>
+
+  <gazebo reference="leg_link_fl">
     <collision>
       <surface>
         <friction>

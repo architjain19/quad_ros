@@ -17,6 +17,7 @@
     <hardware>
       <plugin>gazebo_ros2_control/GazeboSystem</plugin>
     </hardware>
+    <!-- ********************** FRONT RIGHT JOINTS *********************************  -->
     <joint name="thigh_joint_fr">
       <command_interface name="position">
         <param name="min">-${joint_limit}</param>
@@ -27,6 +28,25 @@
       <state_interface name="effort" />
     </joint>
     <joint name="leg_joint_fr">
+      <command_interface name="position">
+        <param name="min">-${joint_limit}</param>
+        <param name="max">${joint_limit}</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+    <!-- ********************** FRONT LEFT JOINTS *********************************  -->
+    <joint name="thigh_joint_fl">
+      <command_interface name="position">
+        <param name="min">-${joint_limit}</param>
+        <param name="max">${joint_limit}</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+    <joint name="leg_joint_fl">
       <command_interface name="position">
         <param name="min">-${joint_limit}</param>
         <param name="max">${joint_limit}</param>

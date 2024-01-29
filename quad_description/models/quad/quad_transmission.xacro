@@ -13,6 +13,7 @@
 <robot name="quad" 
   xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <!-- ********************** FRONT RIGHT JOINTS *********************************  -->
   <transmission name="trans_thigh_fr">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="thigh_joint_fr">
@@ -23,13 +24,34 @@
       <mechanicalReduction>5</mechanicalReduction>
     </actuator>
   </transmission>
-
   <transmission name="trans_leg_fr">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="leg_joint_fr">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor_leg_fr">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>5</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- ********************** FRONT LEFT JOINTS *********************************  -->
+  <transmission name="trans_thigh_fl">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="thigh_joint_fl">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_thigh_fl">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>5</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="trans_leg_fl">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="leg_joint_fl">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_leg_fl">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       <mechanicalReduction>5</mechanicalReduction>
     </actuator>

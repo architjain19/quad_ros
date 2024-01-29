@@ -82,10 +82,17 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
     )
 
-    spawn_controller = launch_ros.actions.Node(
+    spawn_controller_fr = launch_ros.actions.Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["joint_group_controller", "--controller-manager", "/controller_manager"],
+        arguments=["joint_group_controller_fr", "--controller-manager", "/controller_manager"],
+        output="screen",
+    )
+
+    spawn_controller_fl = launch_ros.actions.Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_group_controller_fl", "--controller-manager", "/controller_manager"],
         output="screen",
     )
 
@@ -98,7 +105,8 @@ def generate_launch_description():
         robot_state_publisher_node_quad,
         spawn_quad,
         joint_state_broadcaster_spawner,
-        spawn_controller
+        spawn_controller_fr,
+        spawn_controller_fl
         # static_transform,
         # joint_state_publisher_node_quad,
         # joint_state_publisher_gui_node_quad
