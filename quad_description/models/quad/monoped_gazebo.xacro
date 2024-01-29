@@ -2,10 +2,10 @@
 <!-- 
 *****************************************************************************************
 *
-*  Filename:			    quad.gazebo
-*  Created:				    22/12/2023
-*  Last Modified:	    29/01/2024
-*  Author:				    Archit Jain
+*  Filename:			quad.gazebo
+*  Created:				22/12/2023
+*  Last Modified:	22/12/2023
+*  Author:				Archit Jain
 *  
 *****************************************************************************************
 -->
@@ -16,10 +16,6 @@
   <xacro:property name="joint_limit" value="2.00712863979"/>    <!-- 115 degree -->
 
   <gazebo reference="base_link">
-    <material>Gazebo/Orange</material>
-  </gazebo>
-
-  <gazebo reference="hip_link">
     <material>Gazebo/Black</material>
   </gazebo>
 

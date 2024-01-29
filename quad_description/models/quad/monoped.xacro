@@ -4,12 +4,11 @@
 *
 *  Filename:			    quad.xacro
 *  Created:				    22/12/2023
-*  Last Modified:	    29/01/2024
+*  Last Modified:	    27/01/2024
 *  Author:				    Archit Jain
 *  
 *****************************************************************************************
 -->
-
 <robot name="quad" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- ****************** INCLUDE OTHER MACROS ***************************  -->
@@ -53,6 +52,7 @@
   <!-- Define the center of the main robot chassis projected on the ground -->	
   <link name="base_footprint" />
 
+
   <!-- The base footprint of the robot is located underneath the chassis -->
   <joint name="base_joint" type="fixed">
     <origin xyz="0 0 ${quad_height}" rpy="1.571428571 0 0"/>
@@ -60,33 +60,8 @@
     <child link="base_link" />
   </joint>
 
-  <!-- ********************** ROBOT BASELINK *********************************  -->
+  <!-- ********************** ROBOT BASE *********************************  -->
   <link name="base_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/base_link.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find quad_description)/meshes/base_link.obj" scale=".001 .001 .001"/>
-      </geometry>
-    </collision>
-    <xacro:box_inertia m="0.050" w="0.030" d="0.730" h="0.440">
-      <origin xyz="0 -0.015 0" rpy="1.571428571 0 1.571428571"/>
-    </xacro:box_inertia>
-  </link>
-
-  <joint name="hip_joint" type="fixed">
-    <origin xyz="0.300 -0.090 0.165" rpy="0 0 0"/>
-    <parent link="base_link"/>
-    <child link="hip_link" />
-  </joint>
-
-  <!-- ********************** HIP LINK *********************************  -->
-  <link name="hip_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
@@ -106,7 +81,7 @@
 
   <joint name="thigh_joint" type="revolute">
     <origin xyz="0 0 0" rpy="0 0 0"/>
-    <parent link="hip_link"/>
+    <parent link="base_link"/>
     <child link="thigh_link" />
     <axis xyz="0 0 1" />
     <limit effort="1.5" lower="-${joint_limit}" upper="${joint_limit}" velocity="1.0"/>
@@ -159,6 +134,5 @@
       <origin xyz="0 -0.0975 0" rpy="1.571428571 0 0"/>
     </xacro:box_inertia>
   </link>
-
 
 </robot>
