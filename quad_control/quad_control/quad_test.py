@@ -17,7 +17,7 @@ class HopperWalker(Node):
     def __init__(self):
         super().__init__('hopper_walker')
 
-        self.leg_link = 0.205
+        self.leg_link = 0.220
         self.thigh_link = 0.220
         self.joint_limit = 2.00712863979
 
@@ -30,8 +30,8 @@ class HopperWalker(Node):
             # self.publish_joint_angles(self.deg_to_rad(ang1), self.deg_to_rad(ang2))
 
         # Path parameters
-        self.x_start, self.y_start = 0.25, 0.2
-        self.x_end, self.y_end = 0.25, 0.0
+        self.x_start, self.y_start = 0.25, 0.0
+        self.x_end, self.y_end = 0.25, -0.1
         self.frequency, self.amplitude = 2, 0.05
         self.current_step = 0
         self.num_steps = 100

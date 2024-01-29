@@ -130,8 +130,8 @@
         <mesh filename="file://$(find quad_description)/meshes/leg.obj" scale=".001 .001 .001"/>
       </geometry>
     </collision>
-    <xacro:box_inertia m="0.0125" w="0.050" d="0.230" h="0.060">
-      <origin xyz="0 -0.090 0" rpy="1.571428571 0 0"/>
+    <xacro:box_inertia m="0.0125" w="0.050" d="0.245" h="0.060">
+      <origin xyz="0 -0.0975 0" rpy="1.571428571 0 0"/>
     </xacro:box_inertia>
   </link>
 
