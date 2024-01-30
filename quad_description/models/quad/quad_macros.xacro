@@ -27,7 +27,7 @@
           <mesh filename="file://$(find quad_description)/meshes/hip.obj" scale=".001 .001 .001"/>
         </geometry>
       </collision>
-      <xacro:box_inertia m="0.02" w="0.060" d="0.110" h="0.110">
+      <xacro:box_inertia m="0.020" w="0.060" d="0.110" h="0.110">
         <origin xyz="0 0.030 0" rpy="1.571428571 0 0"/>
       </xacro:box_inertia>
     </link>
@@ -66,7 +66,7 @@
           <mesh filename="file://$(find quad_description)/meshes/base_link.obj" scale=".001 .001 .001"/>
         </geometry>
       </collision>
-      <xacro:box_inertia m="0.050" w="0.030" d="0.730" h="0.440">
+      <xacro:box_inertia m="0.300" w="0.030" d="0.730" h="0.440">
         <origin xyz="0 -0.015 0" rpy="1.571428571 0 1.571428571"/>
       </xacro:box_inertia>
     </link>
@@ -86,7 +86,7 @@
           <mesh filename="file://$(find quad_description)/meshes/thigh.obj" scale=".001 .001 .001"/>
         </geometry>
       </collision>
-      <xacro:box_inertia m="0.015" w="0.050" d="0.270" h="0.110">
+      <xacro:box_inertia m="0.050" w="0.050" d="0.270" h="0.110">
         <origin xyz="0 -0.110 0" rpy="1.571428571 0 0"/>
       </xacro:box_inertia>
     </link>
@@ -106,7 +106,7 @@
           <mesh filename="file://$(find quad_description)/meshes/leg.obj" scale=".001 .001 .001"/>
         </geometry>
       </collision>
-      <xacro:box_inertia m="0.0125" w="0.050" d="0.245" h="0.060">
+      <xacro:box_inertia m="0.050" w="0.050" d="0.245" h="0.060">
         <origin xyz="0 -0.0975 0" rpy="1.571428571 0 0"/>
       </xacro:box_inertia>
     </link>

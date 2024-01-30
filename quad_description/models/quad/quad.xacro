@@ -50,7 +50,7 @@
   <xacro:property name="base_height" value="0.025"/>
   <xacro:property name="base_mass" value="0.4"/>
   <xacro:property name="quad_height" value="1.0"/>
-  <xacro:property name="joint_limit" value="2.00712863979"/>      <!-- 115 degree -->
+  <xacro:property name="joint_limit" value="2.09439510239"/>      <!-- 120 degree -->
 
   <!-- ****************** ROBOT BASE FOOTPRINT ***************************  -->
   <!-- Define the center of the main robot chassis projected on the ground -->	
