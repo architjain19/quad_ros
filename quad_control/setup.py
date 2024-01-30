@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'quad_test = quad_control.quad_test:main'
+            'walking_test = quad_control.walking_test:main'
         ],
     },
 )
