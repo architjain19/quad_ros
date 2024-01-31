@@ -16,7 +16,7 @@
   <xacro:include filename="$(find quad_description)/models/quad/quad_gazebo.xacro" />
   <xacro:include filename="$(find quad_description)/models/quad/quad_macros.xacro" />
   <xacro:include filename="$(find quad_description)/models/quad/quad_ros2_control.xacro" />
-  <xacro:include filename="$(find quad_description)/models/quad/quad_transmission.xacro" />
+  <!-- <xacro:include filename="$(find quad_description)/models/quad/quad_transmission.xacro" /> -->
 
   <!-- ****************** BASIC INERTIAL MACROS ***************************  -->
   <!-- Define intertial property macros  -->
@@ -51,6 +51,8 @@
   <xacro:property name="base_mass" value="0.4"/>
   <xacro:property name="quad_height" value="1.0"/>
   <xacro:property name="joint_limit" value="2.09439510239"/>      <!-- 120 degree -->
+  <xacro:property name="damping" value="0.5"/>
+  <xacro:property name="friction" value="0.15"/>         <!-- ABS=0.35 -->
 
   <!-- ****************** ROBOT BASE FOOTPRINT ***************************  -->
   <!-- Define the center of the main robot chassis projected on the ground -->	
@@ -61,7 +63,7 @@
     parent_link="base_footprint" 
     child_link="base_link"
     pos_x="0" pos_y="0" pos_z="${quad_height}" 
-    rot_x="1.571428571" rot_y="0" rot_z="0"/>
+    rot_x="1.571428571" rot_y="0.75" rot_z="0"/>      <!-- Originally set it to (90 0 0) -->
 
   <!-- ********************** ROBOT BASELINK *********************************  -->
   <xacro:base_link link_name="base_link"/>
@@ -83,8 +85,8 @@
     axis_x="0" axis_y="0" axis_z="1"
     pos_x="0" pos_y="0" pos_z="0"
     rot_x="0" rot_y="0" rot_z="0"
-    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
-    damping="10.0" friction="1000.0" />
+    effort="25" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.5"
+    damping="${damping}" friction="${friction}" />
 
   <xacro:thigh_link link_name="thigh_link_fr"/>
 
@@ -95,8 +97,8 @@
     axis_x="0" axis_y="0" axis_z="1"
     pos_x="0" pos_y="-0.220" pos_z="0"
     rot_x="0" rot_y="0" rot_z="0"
-    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
-    damping="10.0" friction="1000.0" />
+    effort="25" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.5"
+    damping="${damping}" friction="${friction}" />
 
   <xacro:leg_link link_name="leg_link_fr"/>
 
@@ -117,8 +119,8 @@
     axis_x="0" axis_y="0" axis_z="1"
     pos_x="0" pos_y="0" pos_z="0"
     rot_x="0" rot_y="0" rot_z="0"
-    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
-    damping="10.0" friction="1000.0" />
+    effort="25" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.5"
+    damping="${damping}" friction="${friction}" />
 
   <xacro:thigh_link link_name="thigh_link_fl"/>
 
@@ -129,8 +131,8 @@
     axis_x="0" axis_y="0" axis_z="1"
     pos_x="0" pos_y="-0.220" pos_z="0"
     rot_x="0" rot_y="0" rot_z="0"
-    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
-    damping="10.0" friction="1000.0" />
+    effort="25" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.5"
+    damping="${damping}" friction="${friction}" />
 
   <xacro:leg_link link_name="leg_link_fl"/>
 
@@ -151,8 +153,8 @@
     axis_x="0" axis_y="0" axis_z="1"
     pos_x="0" pos_y="0" pos_z="0"
     rot_x="0" rot_y="0" rot_z="0"
-    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
-    damping="10.0" friction="1000.0" />
+    effort="25" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.5"
+    damping="${damping}" friction="${friction}" />
 
   <xacro:thigh_link link_name="thigh_link_rr"/>
 
@@ -163,8 +165,8 @@
     axis_x="0" axis_y="0" axis_z="1"
     pos_x="0" pos_y="-0.220" pos_z="0"
     rot_x="0" rot_y="0" rot_z="0"
-    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
-    damping="10.0" friction="1000.0" />
+    effort="25" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.5"
+    damping="${damping}" friction="${friction}" />
 
   <xacro:leg_link link_name="leg_link_rr"/>
 
@@ -185,8 +187,8 @@
     axis_x="0" axis_y="0" axis_z="1"
     pos_x="0" pos_y="0" pos_z="0"
     rot_x="0" rot_y="0" rot_z="0"
-    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
-    damping="10.0" friction="1000.0" />
+    effort="25" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.5"
+    damping="${damping}" friction="${friction}" />
 
   <xacro:thigh_link link_name="thigh_link_rl"/>
 
@@ -197,8 +199,8 @@
     axis_x="0" axis_y="0" axis_z="1"
     pos_x="0" pos_y="-0.220" pos_z="0"
     rot_x="0" rot_y="0" rot_z="0"
-    effort="1.5" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.0"
-    damping="10.0" friction="1000.0" />
+    effort="25" joint_limit_l="-${joint_limit}" joint_limit_u="${joint_limit}" velocity="1.5"
+    damping="${damping}" friction="${friction}" />
 
   <xacro:leg_link link_name="leg_link_rl"/>
 
