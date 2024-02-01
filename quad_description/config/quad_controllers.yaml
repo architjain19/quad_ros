@@ -5,126 +5,63 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    joint_group_controller_fr:
+    joint_group_trajectory_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-
-    joint_group_controller_fl:
-      type: position_controllers/JointGroupPositionController
-
-    joint_group_controller_rr:
-      type: position_controllers/JointGroupPositionController
-
-    joint_group_controller_rl:
-      type: position_controllers/JointGroupPositionController
 
 joint_state_broadcaster:
   ros__parameters:
     publish_rate: 100
 
-joint_group_controller_fr:
+joint_group_trajectory_controller:
   ros__parameters:
+    use_sim_time: True
     joints:
       - thigh_joint_fr
       - leg_joint_fr
+      - thigh_joint_fl
+      - leg_joint_fl
+      - thigh_joint_rr
+      - leg_joint_rr
+      - thigh_joint_rl
+      - leg_joint_rl
 
     command_interfaces:
-      - position
-
+      - effort
     state_interfaces:
       - position
       - velocity
 
-    action_monitor_rate: 20.0 # Defaults to 20
+    gains:
+      thigh_joint_fr : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      leg_joint_fr : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      thigh_joint_fl : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      leg_joint_fl : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      thigh_joint_rr : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      leg_joint_rr : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      thigh_joint_rl : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      leg_joint_rl : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
 
-    allow_partial_joints_goal: false # Defaults to false
-    open_loop_control: true
-    allow_integration_in_goal_trajectories: true
-    constraints:
-      stopped_velocity_tolerance: 0.01 # Defaults to 0.01
-      goal_time: 0.0 # Defaults to 0.0 (start immediately)
+    # velocity_ff:
+    #   thigh_joint_fr: 1.0
+    #   leg_joint_fr: 1.0
+    #   thigh_joint_fl: 1.0
+    #   leg_joint_fl: 1.0
+    #   thigh_joint_rr: 1.0
+    #   leg_joint_rr: 1.0
+    #   thigh_joint_rl: 1.0
+    #   leg_joint_rl: 1.0
 
-joint_group_controller_fl:
-  ros__parameters:
-    use_sim_time: true
     state_publish_rate: 100.0 # Defaults to 50
     action_monitor_rate: 20.0 # Defaults to 20
-    joints:
-      - thigh_joint_fl
-      - leg_joint_fl
 
-joint_group_controller_rr:
-  ros__parameters:
-    use_sim_time: true
-    state_publish_rate: 100.0 # Defaults to 50
-    action_monitor_rate: 20.0 # Defaults to 20
-    joints:
-      - thigh_joint_rr
-      - leg_joint_rr
-
-joint_group_controller_rl:
-  ros__parameters:
-    use_sim_time: true
-    state_publish_rate: 100.0 # Defaults to 50
-    action_monitor_rate: 20.0 # Defaults to 20
-    joints:
-      - thigh_joint_rl
-      - leg_joint_rl
-
-# controller_manager:
-#   ros__parameters:
-#     update_rate: 1000 #Hz
-
-#     joint_state_broadcaster:
-#       type: joint_state_broadcaster/JointStateBroadcaster
-
-#     joint_group_controller_fr:
-#       type: position_controllers/JointGroupPositionController
-
-#     joint_group_controller_fl:
-#       type: position_controllers/JointGroupPositionController
-
-#     joint_group_controller_rr:
-#       type: position_controllers/JointGroupPositionController
-
-#     joint_group_controller_rl:
-#       type: position_controllers/JointGroupPositionController
-
-# joint_state_broadcaster:
-#   ros__parameters:
-#     publish_rate: 100
-
-# joint_group_controller_fr:
-#   ros__parameters:
-#     use_sim_time: true
-#     state_publish_rate: 100.0 # Defaults to 50
-#     action_monitor_rate: 20.0 # Defaults to 20
-#     joints:
-#       - thigh_joint_fr
-#       - leg_joint_fr
-
-# joint_group_controller_fl:
-#   ros__parameters:
-#     use_sim_time: true
-#     state_publish_rate: 100.0 # Defaults to 50
-#     action_monitor_rate: 20.0 # Defaults to 20
-#     joints:
-#       - thigh_joint_fl
-#       - leg_joint_fl
-
-# joint_group_controller_rr:
-#   ros__parameters:
-#     use_sim_time: true
-#     state_publish_rate: 100.0 # Defaults to 50
-#     action_monitor_rate: 20.0 # Defaults to 20
-#     joints:
-#       - thigh_joint_rr
-#       - leg_joint_rr
-
-# joint_group_controller_rl:
-#   ros__parameters:
-#     use_sim_time: true
-#     state_publish_rate: 100.0 # Defaults to 50
-#     action_monitor_rate: 20.0 # Defaults to 20
-#     joints:
-#       - thigh_joint_rl
-#       - leg_joint_rl
+    # constraints:
+    #   stopped_velocity_tolerance: 0.01
+    #   goal_time: 0.0
+    #   thigh_joint_fr: {trajectory: 0.05, goal: 0.02}
+    #   leg_joint_fr: {trajectory: 0.05, goal: 0.02}
+    #   thigh_joint_fl: {trajectory: 0.05, goal: 0.02}
+    #   leg_joint_fl: {trajectory: 0.05, goal: 0.02}
+    #   thigh_joint_rr: {trajectory: 0.05, goal: 0.02}
+    #   leg_joint_rr: {trajectory: 0.05, goal: 0.02}
+    #   thigh_joint_rl: {trajectory: 0.05, goal: 0.02}
+    #   leg_joint_rl: {trajectory: 0.05, goal: 0.02}

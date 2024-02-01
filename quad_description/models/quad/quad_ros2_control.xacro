@@ -4,7 +4,7 @@
 *
 *  Filename:			    quad_ros2_control.xacro
 *  Created:				    29/01/2024
-*  Last Modified:	    29/01/2024
+*  Last Modified:	    01/02/2024
 *  Author:				    Archit Jain
 *  
 *****************************************************************************************
@@ -19,71 +19,47 @@
     </hardware>
     <!-- ********************** FRONT RIGHT JOINTS *********************************  -->
     <joint name="thigh_joint_fr">
-      <command_interface name="position">
-        <param name="min">-${joint_limit}</param>
-        <param name="max">${joint_limit}</param>
-      </command_interface>
-      <state_interface name="position" />
-      <state_interface name="velocity" />
+      <command_interface name="effort"/> 
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
     </joint>
     <joint name="leg_joint_fr">
-      <command_interface name="position">
-        <param name="min">-${joint_limit}</param>
-        <param name="max">${joint_limit}</param>
-      </command_interface>
-      <state_interface name="position" />
-      <state_interface name="velocity" />
+      <command_interface name="effort"/> 
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
     </joint>
     <!-- ********************** FRONT LEFT JOINTS *********************************  -->
     <joint name="thigh_joint_fl">
-      <command_interface name="position">
-        <param name="min">-${joint_limit}</param>
-        <param name="max">${joint_limit}</param>
-      </command_interface>
-      <state_interface name="position" />
-      <state_interface name="velocity" />
+      <command_interface name="effort"/> 
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
     </joint>
     <joint name="leg_joint_fl">
-      <command_interface name="position">
-        <param name="min">-${joint_limit}</param>
-        <param name="max">${joint_limit}</param>
-      </command_interface>
-      <state_interface name="position" />
-      <state_interface name="velocity" />
+      <command_interface name="effort"/> 
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
     </joint>
     <!-- ********************** REAR RIGHT JOINTS *********************************  -->
     <joint name="thigh_joint_rr">
-      <command_interface name="position">
-        <param name="min">-${joint_limit}</param>
-        <param name="max">${joint_limit}</param>
-      </command_interface>
-      <state_interface name="position" />
-      <state_interface name="velocity" />
+      <command_interface name="effort"/> 
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
     </joint>
     <joint name="leg_joint_rr">
-      <command_interface name="position">
-        <param name="min">-${joint_limit}</param>
-        <param name="max">${joint_limit}</param>
-      </command_interface>
-      <state_interface name="position" />
-      <state_interface name="velocity" />
+      <command_interface name="effort"/> 
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
     </joint>
     <!-- ********************** REAR LEFT JOINTS *********************************  -->
     <joint name="thigh_joint_rl">
-      <command_interface name="position">
-        <param name="min">-${joint_limit}</param>
-        <param name="max">${joint_limit}</param>
-      </command_interface>
-      <state_interface name="position" />
-      <state_interface name="velocity" />
+      <command_interface name="effort"/> 
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
     </joint>
     <joint name="leg_joint_rl">
-      <command_interface name="position">
-        <param name="min">-${joint_limit}</param>
-        <param name="max">${joint_limit}</param>
-      </command_interface>
-      <state_interface name="position" />
-      <state_interface name="velocity" />
+      <command_interface name="effort"/> 
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
     </joint>
   </ros2_control>
 

@@ -110,6 +110,13 @@ def generate_launch_description():
         output="screen",
     )
 
+    joint_group_traj_controller = launch_ros.actions.Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_group_trajectory_controller", "--controller-manager", "/controller_manager"],
+        output="screen",
+    )
+
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(name='gui', default_value='True',
                                             description='Flag to enable joint_state_publisher_gui'),
@@ -119,10 +126,11 @@ def generate_launch_description():
         robot_state_publisher_node_quad,
         spawn_quad,
         joint_state_broadcaster_spawner,
-        spawn_controller_fr,
-        spawn_controller_fl,
-        spawn_controller_rr,
-        spawn_controller_rl
+        joint_group_traj_controller
+        # spawn_controller_fr,
+        # spawn_controller_fl,
+        # spawn_controller_rr,
+        # spawn_controller_rl
         # static_transform,
         # joint_state_publisher_node_quad,
         # joint_state_publisher_gui_node_quad
