@@ -4,7 +4,7 @@
 *
 *  Filename:			    quad_gazebo.xacro
 *  Created:				    22/12/2023
-*  Last Modified:	    31/01/2024
+*  Last Modified:	    01/02/2024
 *  Author:				    Archit Jain
 *  
 *****************************************************************************************
@@ -16,8 +16,8 @@
   <xacro:property name="joint_limit" value="2.09439510239"/>      <!-- 120 degree -->
   <xacro:property name="kp" value="1000000.0"/>
   <xacro:property name="kd" value="1.0"/>
-  <xacro:property name="mu1" value="0.15"/>
-  <xacro:property name="mu2" value="0.15"/>
+  <xacro:property name="mu1" value="0.8"/>
+  <xacro:property name="mu2" value="0.8"/>
   <xacro:property name="max_vel" value="0.0"/>
   <xacro:property name="min_depth" value="0.001"/>
 
