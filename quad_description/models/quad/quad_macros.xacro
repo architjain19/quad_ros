@@ -4,7 +4,7 @@
 *
 *  Filename:			    quad_macros.xacro
 *  Created:				    29/01/2024
-*  Last Modified:	    29/01/2024
+*  Last Modified:	    01/02/2024
 *  Author:				    Archit Jain
 *  
 *****************************************************************************************
@@ -41,14 +41,13 @@
     </joint>
   </xacro:macro>
 
-  <xacro:macro name="revolute_joint" params="joint_name parent_link child_link pos_x pos_y pos_z rot_x rot_y rot_z axis_x axis_y axis_z joint_limit_u joint_limit_l effort velocity damping friction">
+  <xacro:macro name="revolute_joint" params="joint_name parent_link child_link pos_x pos_y pos_z rot_x rot_y rot_z axis_x axis_y axis_z joint_limit_u joint_limit_l effort velocity">
     <joint name="${joint_name}" type="revolute">
       <origin xyz="${pos_x} ${pos_y} ${pos_z}" rpy="${rot_x} ${rot_y} ${rot_z}"/>
       <parent link="${parent_link}"/>
       <child link="${child_link}" />
       <axis xyz="${axis_x} ${axis_y} ${axis_z}" />
       <limit effort="${effort}" lower="${joint_limit_l}" upper="${joint_limit_u}" velocity="${velocity}"/>
-      <dynamics damping="${damping}" friction="${friction}" />
     </joint>
   </xacro:macro>
 
