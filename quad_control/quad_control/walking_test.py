@@ -12,6 +12,7 @@ from rclpy.node import Node
 from std_msgs.msg import Float64MultiArray
 import math
 import numpy as np
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
 class HopperWalker(Node):
     def __init__(self):
@@ -26,6 +27,7 @@ class HopperWalker(Node):
         self.publisher_fl = self.create_publisher(Float64MultiArray, '/joint_group_controller_fl/commands', 10)
         self.publisher_rr = self.create_publisher(Float64MultiArray, '/joint_group_controller_rr/commands', 10)
         self.publisher_rl = self.create_publisher(Float64MultiArray, '/joint_group_controller_rl/commands', 10)
+        self.publisher_group = self.create_publisher(JointTrajectory, '/joint_group_trajectory_controller/joint_trajectory', 10)
 
         # self.publish_joint_angles(self.deg_to_rad(-30), self.deg_to_rad(90))
 
@@ -59,12 +61,27 @@ class HopperWalker(Node):
 
         joint_positions = Float64MultiArray()
         joint_positions.data = [angle1, angle2]
+        joint_angles = [angle1, angle2]
+
+        joint_trajectory_msg = JointTrajectory()
+        joint_trajectory_msg.joint_names = ['thigh_joint_fr', 'leg_joint_fr', 'thigh_joint_fl', 'leg_joint_fl', 'thigh_joint_rr', 'leg_joint_rr', 'thigh_joint_rl', 'leg_joint_rl']
+        trajectory_point = JointTrajectoryPoint()
+        trajectory_point.time_from_start.sec = 1
+        trajectory_point.time_from_start.nanosec = 0
+        trajectory_point.positions = joint_angles*4
+        joint_trajectory_msg.points.append(trajectory_point)
+        
+
         if self.walking_step_count%2==0:
-            self.publisher_fr.publish(joint_positions)        
-            self.publisher_rl.publish(joint_positions)
+            self.publisher_group.publish(joint_trajectory_msg)
+            # self.get_logger().info("Joint trajectory published")
+            # self.publisher_fr.publish(joint_positions)        
+            # self.publisher_rl.publish(joint_positions)
         else:
-            self.publisher_fl.publish(joint_positions)        
-            self.publisher_rr.publish(joint_positions)        
+            # self.publisher_fl.publish(joint_positions)        
+            # self.publisher_rr.publish(joint_positions)
+            self.publisher_group.publish(joint_trajectory_msg)
+            # self.get_logger().info("Joint trajectory published")
 
     def ik_solver(self, x, y):
         L1 = self.leg_link
