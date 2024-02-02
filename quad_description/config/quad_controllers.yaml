@@ -32,14 +32,14 @@ joint_group_trajectory_controller:
       - velocity
 
     gains:
-      thigh_joint_fr : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
-      leg_joint_fr : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
-      thigh_joint_fl : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
-      leg_joint_fl : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
-      thigh_joint_rr : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
-      leg_joint_rr : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
-      thigh_joint_rl : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
-      leg_joint_rl : {p: 10.0, d: 0.006, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      thigh_joint_fr : {p: 20.0, d: 0.05, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      leg_joint_fr : {p: 20.0, d: 0.05, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      thigh_joint_fl : {p: 20.0, d: 0.05, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      leg_joint_fl : {p: 20.0, d: 0.05, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      thigh_joint_rr : {p: 20.0, d: 0.05, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      leg_joint_rr : {p: 20.0, d: 0.05, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      thigh_joint_rl : {p: 20.0, d: 0.05, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
+      leg_joint_rl : {p: 20.0, d: 0.05, i: 0.0, i_clamp: 1.0, ff_velocity_scale: 1.0}
 
     # velocity_ff:
     #   thigh_joint_fr: 1.0
