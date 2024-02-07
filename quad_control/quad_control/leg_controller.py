@@ -36,7 +36,7 @@ class LegController(Node):
         angle2 = math.acos(cos_angle2)  # angle for the leg_joint
         k1 = L + L * math.cos(angle2)
         k2 = L * math.sin(angle2)
-        angle1 = math.atan2(y, x) - math.atan2(k2, k1)  # angle for the thigh_joint
+        angle1 = math.atan2(x, y) - math.atan2(k2, k1)  # angle for the thigh_joint
 
         # Check joint limits
         if abs(angle1) > self.joint_limits or abs(angle2) > self.joint_limits:
