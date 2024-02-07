@@ -3,6 +3,7 @@ from rclpy.node import Node
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from geometry_msgs.msg import Point
 import math
+import numpy as np
 
 class LegController(Node):
     def __init__(self):
@@ -17,13 +18,22 @@ class LegController(Node):
         self.subscription = self.create_subscription(Point, '/target_coordinates', self.callback, 10)
         self.subscription
 
+        # points = self.generate_stance_phase_trajectory(0.1, -0.1, 2.0, 10)
+        # self.get_logger().info(f'Stance path points: {points}')
+
     def callback(self, msg):
+        '''
+        Subscriber callback to to input x, y coordinates and perform inverse kinematics and send the joint command  
+        '''
         x = msg.x
         y = msg.y
         self.get_logger().info(f'Received coordinates {x}, {y}')
         joint_positions = self.send_joint_command(x, y)
 
     def calculate_inverse_kinematics(self, x, y):
+        '''
+        Calculate inverse kinematics of system based on input x, y and return joint angles
+        '''
         # Using the geometric approach for inverse kinematics
         L = self.leg_length
         distance = math.sqrt(x**2 + y**2)  # distance from origin to end effector
@@ -46,6 +56,9 @@ class LegController(Node):
         return angle1, angle2
 
     def send_joint_command(self, x, y):
+        '''
+        Calculate inverse kinematics based on input x, y and send joint command on respective topic
+        '''
         angles = self.calculate_inverse_kinematics(x, y)
         if angles is None:
             self.get_logger().warn('Invalid command, not sending')
@@ -55,17 +68,54 @@ class LegController(Node):
         trajectory_msg = JointTrajectory()
         trajectory_msg.joint_names = self.joint_names
         point = JointTrajectoryPoint()
-        point.positions = [angle1, angle2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        # point.positions = [angle1, angle2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        point.positions = [angle1, angle2]*4
         point.time_from_start.sec = 1  # Adjust timing as needed
         trajectory_msg.points.append(point)
 
         self.publisher_group.publish(trajectory_msg)
         self.get_logger().info('Joint command sent')
 
+    def generate_stance_phase_trajectory(self, start_x, end_x, step_height, num_points):
+        x_values = np.linspace(start_x, end_x, num_points)
+        # Keeping y constant, as we want a straight line trajectory for the stance phase
+        y_values = [step_height] * num_points  # stance_height is constant for all points
+        return list(zip(x_values, y_values))
+    
+    def send_stance_phase_commands(self, start_x, end_x, step_height, num_points):
+        '''
+        Calculate stance trajectory points 
+        and calculate joint angles using inverse kinematics over these x, y points 
+        and send the joint command to respective topics 
+        '''
+        trajectory = self.generate_stance_phase_trajectory(start_x, end_x, step_height, num_points)
+        for x, y in trajectory:
+            angles = self.calculate_inverse_kinematics(x, y)
+            if angles is None:
+                self.get_logger().warn(f'Invalid command, not sending. Skipping current point {x}, {y}')
+                continue  # Skip this point
+
+            angle1, angle2 = angles
+            trajectory_msg = JointTrajectory()
+            trajectory_msg.joint_names = self.joint_names
+            point = JointTrajectoryPoint()
+            # point.positions = [angle1, angle2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+            point.positions = [angle1, angle2]*4
+            point.time_from_start.sec = 1  # Adjust timing as needed
+            trajectory_msg.points.append(point)
+
+            self.publisher_group.publish(trajectory_msg)
+            self.get_logger().info(f'Joint command sent for x={x}, y={y}')
+            # TODO: implement timer callback instead time library
+            # import time
+            # time.sleep(1)
+
+
 def main(args=None):
     rclpy.init(args=args)
     leg_controller = LegController()
-
+    # print(leg_controller.generate_stance_phase_trajectory(0.15, -0.1, 0.35, 10))
+    leg_controller.send_stance_phase_commands(0.1, -0.1, 0.275, 1000)
     rclpy.spin(leg_controller)
     rclpy.shutdown()
 
