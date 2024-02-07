@@ -18,6 +18,8 @@ class LegController(Node):
         self.subscription = self.create_subscription(Point, '/target_coordinates', self.callback, 10)
         self.subscription
 
+        self.trajectory = None
+        self.i = 0
         # points = self.generate_stance_phase_trajectory(0.1, -0.1, 2.0, 10)
         # self.get_logger().info(f'Stance path points: {points}')
 
@@ -82,19 +84,16 @@ class LegController(Node):
         y_values = [step_height] * num_points  # stance_height is constant for all points
         return list(zip(x_values, y_values))
     
-    def send_stance_phase_commands(self, start_x, end_x, step_height, num_points):
-        '''
-        Calculate stance trajectory points 
-        and calculate joint angles using inverse kinematics over these x, y points 
-        and send the joint command to respective topics 
-        '''
-        trajectory = self.generate_stance_phase_trajectory(start_x, end_x, step_height, num_points)
-        for x, y in trajectory:
-            angles = self.calculate_inverse_kinematics(x, y)
-            if angles is None:
-                self.get_logger().warn(f'Invalid command, not sending. Skipping current point {x}, {y}')
-                continue  # Skip this point
+    def trace_trajecrtory_cb(self):
+        itr = self.i
 
+        x = self.trajectory[itr][0]
+        y = self.trajectory[itr][1]
+
+        angles = self.calculate_inverse_kinematics(x, y)
+        if angles is None:
+            self.get_logger().warn(f'Invalid command, not sending. Skipping current point {x}, {y}')
+        else:
             angle1, angle2 = angles
             trajectory_msg = JointTrajectory()
             trajectory_msg.joint_names = self.joint_names
@@ -106,16 +105,28 @@ class LegController(Node):
 
             self.publisher_group.publish(trajectory_msg)
             self.get_logger().info(f'Joint command sent for x={x}, y={y}')
-            # TODO: implement timer callback instead time library
-            # import time
-            # time.sleep(1)
 
+        self.i = itr + 1
+
+        if itr >= len(self.trajectory) - 1:
+            self.get_logger().info(f'Timer process completed cleanly!')
+            self.trace_trajecrtory.cancel()
+
+    def send_stance_phase_commands(self, start_x, end_x, step_height, num_points):
+        '''
+        Calculate stance trajectory points 
+        and calculate joint angles using inverse kinematics over these x, y points 
+        and send the joint command to respective topics 
+        '''
+        self.trajectory = self.generate_stance_phase_trajectory(start_x, end_x, step_height, num_points)
+
+        self.trace_trajecrtory = self.create_timer(0.25, self.trace_trajecrtory_cb)
 
 def main(args=None):
     rclpy.init(args=args)
     leg_controller = LegController()
     # print(leg_controller.generate_stance_phase_trajectory(0.15, -0.1, 0.35, 10))
-    leg_controller.send_stance_phase_commands(0.1, -0.1, 0.275, 1000)
+    leg_controller.send_stance_phase_commands(0.1, -0.1, 0.275, 10)
     rclpy.spin(leg_controller)
     rclpy.shutdown()
 
