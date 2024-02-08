@@ -122,11 +122,33 @@ class LegController(Node):
 
         self.trace_trajecrtory = self.create_timer(0.25, self.trace_trajecrtory_cb)
 
+    def generate_swing_phase_trajectory(self, center_x, center_y, radius, num_points):
+        # Theta values for a semicircle from 0 to pi
+        theta_values = np.linspace(np.pi, 2*np.pi, num_points)
+        # Calculate x and y positions for the semicircle trajectory
+        x_values = center_x + radius * np.cos(theta_values)
+        y_values = center_y + radius * np.sin(theta_values)
+        
+        return list(zip(x_values, y_values))
+
+    def send_swing_phase_commands(self, center_x, center_y, radius, num_points):
+        '''
+        Calculate swing trajectory points
+        and calculate joint angles using inverse kinematics over these x, y points
+        and send the joint command to respective topics.
+        Note: Here center x, y given; so if x=0 and radius is 0.05, then it'll start from x=-0.05 to x=+0.05
+        '''
+        self.trajectory = self.generate_swing_phase_trajectory(center_x, center_y, radius, num_points)
+
+        self.trace_trajecrtory = self.create_timer(0.25, self.trace_trajecrtory_cb)
+
+
 def main(args=None):
     rclpy.init(args=args)
     leg_controller = LegController()
     # print(leg_controller.generate_stance_phase_trajectory(0.15, -0.1, 0.35, 10))
-    leg_controller.send_stance_phase_commands(0.1, -0.1, 0.275, 10)
+    # leg_controller.send_stance_phase_commands(0.1, -0.1, 0.275, 10)
+    leg_controller.send_swing_phase_commands(0.0, 0.3, 0.05, 30)
     rclpy.spin(leg_controller)
     rclpy.shutdown()
 
