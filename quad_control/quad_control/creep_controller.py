@@ -5,9 +5,9 @@ from geometry_msgs.msg import Point
 import math
 import numpy as np
 
-class TrotController(Node):
+class CreepController(Node):
     def __init__(self):
-        super().__init__('trot_controller')
+        super().__init__('creep_controller')
         self.publisher_group = self.create_publisher(JointTrajectory, '/joint_group_trajectory_controller/joint_trajectory', 10)
         # Assuming you have a way to input x, y for the end effector. 
         # This could be another subscriber or a service call handling part in a real application.
@@ -110,13 +110,13 @@ class TrotController(Node):
             trajectory_msg.joint_names = self.joint_names
             point = JointTrajectoryPoint()
             if self.leg_count%4 == 0:
-                point.positions = [angle1, angle2, self.stance_points[0], self.stance_points[1], self.stance_points[0], self.stance_points[1], angle1, angle2]
+                point.positions = [angle1, angle2, self.stance_points[0], self.stance_points[1], self.stance_points[0], self.stance_points[1], self.stance_points[0], self.stance_points[1]]
             elif self.leg_count%4 == 1:
-                point.positions = [self.stance_points[0], self.stance_points[1], angle1, angle2, angle1, angle2, self.stance_points[0], self.stance_points[1]]
+                point.positions = [self.stance_points[0], self.stance_points[1], angle1, angle2, self.stance_points[0], self.stance_points[1], self.stance_points[0], self.stance_points[1]]
             elif self.leg_count%4 == 2:
-                point.positions = [angle1, angle2, self.stance_points[0], self.stance_points[1], self.stance_points[0], self.stance_points[1], angle1, angle2]
+                point.positions = [self.stance_points[0], self.stance_points[1], self.stance_points[0], self.stance_points[1], angle1, angle2, self.stance_points[0], self.stance_points[1]]
             elif self.leg_count%4 == 3:
-                point.positions = [self.stance_points[0], self.stance_points[1], angle1, angle2, angle1, angle2, self.stance_points[0], self.stance_points[1]]
+                point.positions = [self.stance_points[0], self.stance_points[1], self.stance_points[0], self.stance_points[1], self.stance_points[0], self.stance_points[1], angle1, angle2]
             point.time_from_start.sec = 1  # Adjust timing as needed
             trajectory_msg.points.append(point)
 
@@ -186,27 +186,27 @@ class TrotController(Node):
         self.trajectory = self.generate_vstance_phase_trajectory(start_y, end_y, step_height, num_points)
         self.trace_trajecrtory = self.create_timer(0.05, self.trace_trajecrtory_cb)
 
-    def trot_gait(self):
+    def creep_gait(self):
         if self.loop_stat == None:
             self.send_vstance_phase_commands(0.4, 0.25, 0.0, 5)
         if self.loop_stat == 7 and not self.vstance_stat:
             self.vstance_stat = True
             self.send_vstance_phase_commands(0.25, 0.4, 0.0, 5)
         if self.loop_stat == 7 and self.vstance_stat:
-            self.get_logger().info(f'Trot process completed cleanly!')
+            self.get_logger().info(f'creep process completed cleanly!')
             self.leg_count = self.leg_count + 1
             self.loop_stat = None
             self.vstance_stat = False
 
 def main(args=None):
     rclpy.init(args=args)
-    trot_controller = TrotController()
-    # trot_controller.send_stance_phase_commands(0.1, -0.1, 0.275, 10)
-    # trot_controller.send_swing_phase_commands(0.0, 0.3, 0.05, 30)
-    global walk, trot
-    # walk = trot_controller.create_timer(1.0, trot_controller.test_walk)
-    trot = trot_controller.create_timer(0.25, trot_controller.trot_gait)
-    rclpy.spin(trot_controller)
+    creep_controller = CreepController()
+    # creep_controller.send_stance_phase_commands(0.1, -0.1, 0.275, 10)
+    # creep_controller.send_swing_phase_commands(0.0, 0.3, 0.05, 30)
+    global walk, creep
+    # walk = creep_controller.create_timer(1.0, creep_controller.test_walk)
+    creep = creep_controller.create_timer(0.25, creep_controller.creep_gait)
+    rclpy.spin(creep_controller)
     rclpy.shutdown()
 
 if __name__ == '__main__':

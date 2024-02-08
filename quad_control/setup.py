@@ -20,8 +20,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'walking_test = quad_control.walking_test:main',
+            'trot_controller = quad_control.trot_controller:main',
             'leg_controller = quad_control.leg_controller:main',
+            'creep_controller = quad_control.creep_controller:main',
         ],
     },
 )
