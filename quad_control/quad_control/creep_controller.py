@@ -20,7 +20,7 @@ class CreepController(Node):
 
         self.trajectory = None
         self.i = 0
-        self.stance_points = self.calculate_inverse_kinematics(0.0, 0.4)
+        self.stance_points = self.calculate_inverse_kinematics(0.0, 0.35)
         # points = self.generate_stance_phase_trajectory(0.1, -0.1, 2.0, 10)
         # self.get_logger().info(f'Stance path points: {points}')
         self.loop_stat = None
@@ -188,10 +188,10 @@ class CreepController(Node):
 
     def creep_gait(self):
         if self.loop_stat == None:
-            self.send_vstance_phase_commands(0.4, 0.25, 0.0, 5)
+            self.send_vstance_phase_commands(0.35, 0.25, 0.0, 5)
         if self.loop_stat == 7 and not self.vstance_stat:
             self.vstance_stat = True
-            self.send_vstance_phase_commands(0.25, 0.4, 0.0, 5)
+            self.send_vstance_phase_commands(0.25, 0.35, 0.0, 5)
         if self.loop_stat == 7 and self.vstance_stat:
             self.get_logger().info(f'creep process completed cleanly!')
             self.leg_count = self.leg_count + 1
@@ -205,7 +205,7 @@ def main(args=None):
     # creep_controller.send_swing_phase_commands(0.0, 0.3, 0.05, 30)
     global walk, creep
     # walk = creep_controller.create_timer(1.0, creep_controller.test_walk)
-    creep = creep_controller.create_timer(0.25, creep_controller.creep_gait)
+    creep = creep_controller.create_timer(0.15, creep_controller.creep_gait)
     rclpy.spin(creep_controller)
     rclpy.shutdown()
 
