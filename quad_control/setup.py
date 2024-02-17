@@ -23,6 +23,7 @@ setup(
             'trot_controller = quad_control.trot_controller:main',
             'leg_controller = quad_control.leg_controller:main',
             'creep_controller = quad_control.creep_controller:main',
+            'custom_controller = quad_control.custom_controller:main',
         ],
     },
 )
