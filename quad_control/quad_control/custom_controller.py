@@ -17,6 +17,12 @@ class CustomController(Node):
         self.trace_trajectory_cb_status = 0 # 0: UNOCCUPIED; 1: OCCUPIED
         self.joint_limits = math.radians(120)
         self.joint_names = ['thigh_joint_fr', 'leg_joint_fr', 'thigh_joint_fl', 'leg_joint_fl', 'thigh_joint_rr', 'leg_joint_rr', 'thigh_joint_rl', 'leg_joint_rl']
+        self.command_functions = [
+            (self.exec_custom_stance_phase_commands, (0.0, 0.1, 0.375, 0.25, 5, 0.05)),
+            (self.exec_custom_stance_phase_commands, (0.1, 0.2, 0.25, 0.375, 5, 0.05)),
+            (self.exec_custom_stance_phase_commands, (0.2, 0.0, 0.375, 0.375, 5, 0.05))
+        ]
+        self.current_command_index = 0
         
     def calculate_inverse_kinematics(self, x, y):
         '''
@@ -90,7 +96,9 @@ class CustomController(Node):
     def loop_control(self):
         if not self.trace_trajectory_cb_status:
             self.get_logger().info(f'Executing next command...')
-            self.exec_custom_stance_phase_commands(0.0, 0.1, 0.4, 0.25, 25, 0.5)        # timer=0.5
+            function, parameters = self.command_functions[self.current_command_index]
+            function(*parameters)
+            self.current_command_index = (self.current_command_index + 1) % len(self.command_functions)
         else:
             # self.get_logger().info(f'Waiting for timer to complete...')
             pass
