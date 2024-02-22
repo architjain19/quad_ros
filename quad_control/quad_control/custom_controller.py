@@ -18,10 +18,15 @@ class CustomController(Node):
         self.joint_limits = math.radians(120)
         self.joint_names = ['thigh_joint_fr', 'leg_joint_fr', 'thigh_joint_fl', 'leg_joint_fl', 'thigh_joint_rr', 'leg_joint_rr', 'thigh_joint_rl', 'leg_joint_rl']
         self.command_functions = [
-            (self.generate_custom_stance_phase_trajectory, (0.0, 0.1, 0.375, 0.25, 2)),
-            (self.generate_custom_stance_phase_trajectory, (0.1, 0.2, 0.25, 0.375, 2)),
-            (self.generate_custom_stance_phase_trajectory, (0.2, 0.0, 0.375, 0.375, 2))
+            # (self.generate_custom_stance_phase_trajectory, (0.0, 0.1, 0.375, 0.25, 2)),
+            # (self.generate_custom_stance_phase_trajectory, (0.1, 0.2, 0.25, 0.375, 2)),
+            # (self.generate_custom_stance_phase_trajectory, (0.2, 0.0, 0.375, 0.375, 2))
+            (self.generate_swing_phase_trajectory, (0.05, 0.375, 0.05, 4, 1)),
+            (self.reverse_hump, (0, 0, 0, 0, 0)),
+            # (self.generate_custom_stance_phase_trajectory, (0.1, 0.0, 0.375, 0.375, 4))
         ]
+        self.trajectory = self.get_single_step_traj()
+        self.get_logger().info(f'Trajectory: {str(self.trajectory)}')
         self.leg_num = 4
         self.current_command_index = 0
         self.static_angle1, self.static_angle2 = self.calculate_inverse_kinematics(0.0, 0.375)
@@ -70,6 +75,14 @@ class CustomController(Node):
                     point.positions = [angle1, angle2, self.static_angle1, self.static_angle2, self.static_angle1, self.static_angle2, angle1, angle2]
                 elif self.current_command_index == 1 or self.current_command_index == 3:
                     point.positions = [self.static_angle1, self.static_angle2, angle1, angle2, angle1, angle2, self.static_angle1, self.static_angle2]
+                # if self.current_command_index == 0:
+                #     point.positions = [angle1, angle2, self.static_angle1, self.static_angle2, self.static_angle1, self.static_angle2, self.static_angle1, self.static_angle2]
+                # elif self.current_command_index == 1:
+                #     point.positions = [self.static_angle1, self.static_angle2, angle1, angle2, self.static_angle1, self.static_angle2, self.static_angle1, self.static_angle2]
+                # elif self.current_command_index == 2:
+                #     point.positions = [self.static_angle1, self.static_angle2, self.static_angle1, self.static_angle2, self.static_angle1, self.static_angle2, angle1, angle2]
+                # elif self.current_command_index == 3:
+                #     point.positions = [self.static_angle1, self.static_angle2, self.static_angle1, self.static_angle2, angle1, angle2, self.static_angle1, self.static_angle2]
                 point.time_from_start.sec = 1
                 trajectory_msg.points.append(point)
                 self.publisher_group.publish(trajectory_msg)
@@ -83,6 +96,18 @@ class CustomController(Node):
                 trace_timer.cancel()
 
         trace_timer = self.create_timer(delay_trajectory, trace_trajectory_cb)
+
+    def generate_swing_phase_trajectory(self, center_x, center_y, radius, num_points, hump):
+        if hump:
+            theta_values = np.linspace(np.pi, 2*np.pi, num_points)
+        else:
+            theta_values = np.linspace(-2*np.pi, -np.pi, num_points)
+        x_values = center_x + radius * np.cos(theta_values)
+        y_values = center_y + radius * np.sin(theta_values)
+        return list(zip(x_values, y_values))
+
+    def reverse_hump(self, x, y, z, a, b):
+        return [(0.10000000000000002, 0.375), (0.08090169943749473, 0.3835031112510715), (0.06045284632676539, 0.3878496491583835), (0.039547153673234664, 0.3878496491583835), (0.019098300562505246, 0.3835031112510715), (-4.163336342344337e-17, 0.375)]
 
     def generate_custom_stance_phase_trajectory(self, x1, x2, y1, y2, num_points):
         x_values = np.linspace(x1, x2, num_points)
@@ -99,8 +124,7 @@ class CustomController(Node):
     def loop_control(self):
         if not self.trace_trajectory_cb_status:
             self.get_logger().info(f'Executing next step...')
-            trajectory = self.get_single_step_traj()
-            self.trace_trajectory_path(0.5, trajectory)
+            self.trace_trajectory_path(0.5, self.trajectory)
             self.current_command_index = (self.current_command_index + 1) % self.leg_num
         else:
             # self.get_logger().info(f'Waiting for timer to complete...')
